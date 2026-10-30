@@ -40,7 +40,9 @@ internal static class Program
                 $"HTTPS_PROXY={Environment.GetEnvironmentVariable("HTTPS_PROXY")}",
                 $"ALL_PROXY={Environment.GetEnvironmentVariable("ALL_PROXY")}",
                 $"NO_PROXY={Environment.GetEnvironmentVariable("NO_PROXY")}");
-            await File.WriteAllTextAsync(args[1], values);
+            var temporaryFile = args[1] + ".tmp";
+            await File.WriteAllTextAsync(temporaryFile, values);
+            File.Move(temporaryFile, args[1]);
             return 0;
         }
 
