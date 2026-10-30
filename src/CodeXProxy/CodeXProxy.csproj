@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>..\..\assets\app.ico</ApplicationIcon>
+    <AssemblyName>CodeXProxy</AssemblyName>
+    <RootNamespace>CodeXProxy</RootNamespace>
+    <Product>CodeX Proxy</Product>
+    <AssemblyTitle>CodeX Proxy</AssemblyTitle>
+    <Description>Selective local proxy for ChatGPT and Codex on Windows.</Description>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeXProxy.Core\CodeXProxy.Core.csproj" />
+  </ItemGroup>
+</Project>
+

@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeXProxy.Core", "src\CodeXProxy.Core\CodeXProxy.Core.csproj", "{F8E8E32F-84FB-4CE6-91AB-44ED8EB90F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeXProxy", "src\CodeXProxy\CodeXProxy.csproj", "{2A6DC58D-D6A0-45D3-8FA2-448EDF8D96EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeXProxy.Checks", "tests\CodeXProxy.Checks\CodeXProxy.Checks.csproj", "{577E6365-187A-4C4F-8975-B3B6BAFEC023}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8E8E32F-84FB-4CE6-91AB-44ED8EB90F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E8E32F-84FB-4CE6-91AB-44ED8EB90F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E8E32F-84FB-4CE6-91AB-44ED8EB90F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E8E32F-84FB-4CE6-91AB-44ED8EB90F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A6DC58D-D6A0-45D3-8FA2-448EDF8D96EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A6DC58D-D6A0-45D3-8FA2-448EDF8D96EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A6DC58D-D6A0-45D3-8FA2-448EDF8D96EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A6DC58D-D6A0-45D3-8FA2-448EDF8D96EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577E6365-187A-4C4F-8975-B3B6BAFEC023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577E6365-187A-4C4F-8975-B3B6BAFEC023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577E6365-187A-4C4F-8975-B3B6BAFEC023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577E6365-187A-4C4F-8975-B3B6BAFEC023}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
+
