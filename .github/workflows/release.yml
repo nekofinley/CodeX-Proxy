@@ -1,0 +1,98 @@
+name: Release assets
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to build and attach
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+
+jobs:
+  build:
+    name: Build ${{ matrix.runtime }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime: [win-x64, win-arm64]
+
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.event.release.tag_name }}
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Run automated checks
+        if: matrix.runtime == 'win-x64'
+        run: dotnet run --project tests/CodeXProxy.Checks/CodeXProxy.Checks.csproj -c Release
+
+      - name: Publish package
+        shell: pwsh
+        env:
+          RUNTIME: ${{ matrix.runtime }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $env:RELEASE_TAG.TrimStart('v')
+          $publish = "artifacts/publish/$env:RUNTIME"
+          dotnet publish src/CodeXProxy/CodeXProxy.csproj `
+            -c Release `
+            -r $env:RUNTIME `
+            --self-contained:true `
+            -p:PublishSingleFile=true `
+            -p:DebugType=None `
+            -p:DebugSymbols=false `
+            -o $publish
+          if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+          }
+
+          $stage = "artifacts/package/$env:RUNTIME"
+          New-Item -ItemType Directory -Path $stage -Force | Out-Null
+          Get-ChildItem -LiteralPath $publish -File | Copy-Item -Destination $stage
+          Copy-Item README.md -Destination $stage
+
+          $zip = "artifacts/CodeXProxy-$version-$env:RUNTIME.zip"
+          Compress-Archive -Path "$stage/*" -DestinationPath $zip -CompressionLevel Optimal
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.runtime }}
+          path: artifacts/CodeXProxy-*.zip
+          if-no-files-found: error
+
+  release:
+    name: Attach release assets
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Generate checksums
+        working-directory: dist
+        run: sha256sum CodeXProxy-*.zip > SHA256SUMS.txt
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload "$RELEASE_TAG" dist/CodeXProxy-*.zip dist/SHA256SUMS.txt --clobber
